@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gekleurde druppels</title>
+    <link rel="stylesheet" href="gekleurde_druppels.css">
+</head>
+<body>
+<h1>Gekleurde druppels</h1>
+
+<hr/>
+
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="#">purple</a>
+        <a href="#">orange</a>
+        <a href="#">blue</a>
+        <a href="#">green</a>
+        <a href="#">red</a>
+    </div>
+</div>
+<script>
+    /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
+<button class="startbutton">New game</button>
+
+<canvas id="myCanvas" width="600" height="600">
+    Your browser does not support the canvas element.
+</canvas>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    let n = 7;
+    let d = canvas.offsetWidth/n;
+    for (let i = 0; i < n; i++){
+        for (let j = 0; j < n; j++){
+            ctx.beginPath();
+            let x = d/2 + i*d;
+            let y = d/2 + j*d;
+            ctx.arc(x,y,d/2,0,2*Math.PI);
+            ctx.fill();
+        }
+    }
+</script>
+
+<label id="scorelabel">Score: -</label>
+<script>
+    document.getElementById('scorelabel').innerHTML()
+</script>
+</body>
+</html>

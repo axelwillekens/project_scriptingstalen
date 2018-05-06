@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gekleurde druppels</title>
+    <link rel="stylesheet" href="gekleurde_druppels.css">
+</head>
+<body>
+<h1>Gekleurde druppels</h1>
+<hr/>
+<div class="dropdown">
+    <label onclick="toggleDropDown()" class="dropbtn" id="dropdownbutton">Dropdown</label>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="#" onclick="changeDropDownColor('purple')" style="background-color:purple;">purple</a>
+        <a href="#" onclick="changeDropDownColor('orange')" style="background-color:orange;">orange</a>
+        <a href="#" onclick="changeDropDownColor('blue')" style="background-color:blue;">blue</a>
+        <a href="#" onclick="changeDropDownColor('green')" style="background-color:green;">green</a>
+        <a href="#" onclick="changeDropDownColor('red')" style="background-color:red;">red</a>
+    </div>
+</div>
+<script>
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    };
+</script>
+<button class="startbutton" onclick="startNewGame()">New game</button>
+<label id="scorelabel">Score: -</label>
+
+
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3">
+    Your browser does not support the canvas element.
+</canvas>
+
+
+
+<script src="gekleurde_druppels2.js"></script>
+</body>
+</html>
