@@ -16,7 +16,7 @@ hr {
 
 #myCanvas {
     position:fixed;
-    top: 50%;
+    top: 60%;
     left: 50%;
     width: 34em;
     height: 34em;
@@ -98,7 +98,7 @@ hr {
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: black;
+    color: white;
     padding-top: 8px;
     padding-bottom: 8px;
     padding-left: 20px;
