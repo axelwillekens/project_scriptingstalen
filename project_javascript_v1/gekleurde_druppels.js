@@ -20,7 +20,7 @@ function startNewGame() {
         })
         .then(function(myJson) {
             changescore(myJson.score);
-            changecanvas(myJson.board);
+            changecanvas(myJson.board, "darkgoldenrod");
         }).catch(function (error) {
             alert(error);
         });
@@ -44,11 +44,12 @@ function changescore(score) {
 
 
 //voor canvas
-function changecanvas(rooster) {
+function changecanvas(rooster, firstcolor) {
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     let n = rooster[0].length;
-    let d = canvas.offsetWidth/n;
+    let d = canvas.width/n;
     for (let i = 0; i < n; i++){
         for (let j = 0; j < n; j++){
             ctx.beginPath();
@@ -58,10 +59,36 @@ function changecanvas(rooster) {
             ctx.fill();
             //volgorde van de kleuren klopt langs geen kanten!!
             if (i === 0 && j === 0){
-                ctx.fillStyle = String(document.getElementById("dropdownbutton").style.color);
+                ctx.fillStyle = firstcolor;
+                ctx.fill();
             } else {
                 ctx.fillStyle = rooster[j][i];
+                ctx.fill();
             }
+        }
+    }
+}
+
+function mouseClicked(event) {
+    if (event !== undefined){
+        let canvas = document.getElementById("myCanvas");
+        let b = canvas.width;
+        let h = canvas.height;
+        let clickx = event.x - canvas.offsetLeft;
+        let clicky = event.y - canvas.offsetTop;
+        let color = String(document.getElementById("dropdownbutton").style.backgroundColor);
+        if (clickx < b/5 && clicky < h/5) {
+            //SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data ---- in Firefox
+            fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=m&zet=' + color.charAt(0))
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(myJson) {
+                    changescore(myJson.score);
+                    changecanvas(myJson.board, color);
+                }).catch(function (error) {
+                    alert(error);
+                });
         }
     }
 }
