@@ -78,7 +78,6 @@ function mouseClicked(event) {
         let clicky = event.y - canvas.offsetTop;
         let color = String(document.getElementById("dropdownbutton").style.backgroundColor);
         if (clickx < b/5 && clicky < h/5) {
-            //SyntaxError: JSON.parse: unexpected end of data at line 1 column 1 of the JSON data ---- in Firefox
             fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=m&zet=' + color.charAt(0))
                 .then(function(response) {
                     return response.json();
@@ -86,6 +85,9 @@ function mouseClicked(event) {
                 .then(function(myJson) {
                     changescore(myJson.score);
                     changecanvas(myJson.board, color);
+                    if(myJson.message !== ""){
+                        alert(myJson.message);
+                    }
                 }).catch(function (error) {
                     alert(error);
                 });
