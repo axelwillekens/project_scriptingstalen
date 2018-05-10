@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gekleurde druppels</title>
+    <link rel="stylesheet" href="gekleurde_druppels.css">
+</head>
+<body>
+<h1>Gekleurde druppels</h1>
+<hr/>
+<div class="dropdown">
+    <label onclick="toggleDropDown()" class="dropbtn" id="dropdownbutton">blue</label>
+    <div id="myDropdown" class="dropdown-content">
+        <a href="#" onclick="changeDropDownColor('purple')" style="background-color:purple;">purple</a>
+        <a href="#" onclick="changeDropDownColor('orange')" style="background-color:orange;">orange</a>
+        <a href="#" onclick="changeDropDownColor('blue')" style="background-color:blue;">blue</a>
+        <a href="#" onclick="changeDropDownColor('green')" style="background-color:green;">green</a>
+        <a href="#" onclick="changeDropDownColor('red')" style="background-color:red;">red</a>
+    </div>
+</div>
+<button id="sizebuttonright" onclick="increasesizelabel()"> > </button>
+<button id="sizebuttonleft" onclick="decreasesizelabel()"> < </button>
+<label id="sizelabel">5</label>
+<button class="startbutton" onclick="startNewGame()">New game</button>
+<label id="scorelabel">Score: -</label>
+<canvas id="myCanvas" width="700" height="700" onclick="mouseClicked(event)">
+    Your browser does not support the canvas element.
+</canvas>
+<script type="text/javascript" src="gekleurde_druppels.js"></script>
+</body>
+</html>

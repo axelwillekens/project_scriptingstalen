@@ -14,7 +14,7 @@ window.onclick = function(event) {
 
 var fetch = require("node-fetch");
 function startNewGame() {
-    fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=g&size=' + document.getElementById("sizelabel").innerHTML)
+    fetch('http://localhost:8000/cgi-bin/gekleurde_druppels.py?met=g&size=' + document.getElementById("sizelabel").innerHTML)
         .then(function(response) {
             return response.json();
         })
@@ -92,7 +92,7 @@ function mouseClicked(event) {
         let clicky = event.y - canvas.offsetTop;
         let color = String(document.getElementById("dropdownbutton").style.backgroundColor);
         if (clickx < b/5 && clicky < h/5) {
-            fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=m&zet=' + color.charAt(0))
+            fetch('http://localhost:8000/cgi-bin/gekleurde_druppels.py?met=m&zet=' + color.charAt(0))
                 .then(function(response) {
                     return response.json();
                 })

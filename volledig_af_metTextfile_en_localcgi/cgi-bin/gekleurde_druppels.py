@@ -22,7 +22,7 @@ def makeboard(roosterstring, size):
         row = []
         for j in range(0, size):
             try:
-                row.append(colors[roosterstring[i*5+j].lower()])
+                row.append(colors[roosterstring[i*size+j].lower()])
             except KeyError:
                 row.append("darkgoldenrod")
         board.append(row)
@@ -165,7 +165,7 @@ class Druppeltegel:
         return self.kleur
 
 
-# return correct respose
+# return the correct response
 print("Content-Type: application/json")
 print("Accept: application/json")
 print("Access-Control-Allow-Origin: *")

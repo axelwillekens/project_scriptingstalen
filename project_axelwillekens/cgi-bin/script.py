@@ -39,7 +39,7 @@ def new_game(size=5):
     stat = {}
     roosterstring = "*"
     for i in range(1, size**2):
-        roosterstring += random.choice(list(colors.keys()))
+        roosterstring += random.choice(startingcolors)
 
     stat['board'] = makeboard(roosterstring, size)
     stat['moves'] = []
@@ -55,12 +55,14 @@ def do_move(status, zet, index):
 
     # aanmaken van het rooster
     board = status['board']
-    moves = status['moves']
+    if status['moves']:
+        moves = status['moves']
+    else:
+        moves = []
     score = int(status['score'])
-    roosterstring = makeroosterstring(board)
-    size = board[0].length
+    size = len(board[0])
 
-    spelbord = Rooster(size, roosterstring)
+    spelbord = Rooster(size, makeroosterstring(board))
     spelbord.druppel(kleur)
 
     stat['board'] = makeboard(str(spelbord), size)
@@ -167,7 +169,7 @@ parameters = cgi.FieldStorage()
 method = parameters.getvalue('met')
 if method == 'g':
     if parameters.getvalue('size'):
-        print(json.dumps(new_game(parameters.getvalue('size'))))
+        print(json.dumps(new_game(int(parameters.getvalue('size')))))
     else:
         print(json.dumps(new_game()))
 
