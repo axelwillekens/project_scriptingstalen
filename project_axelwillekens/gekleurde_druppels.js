@@ -13,6 +13,7 @@ window.onclick = function(event) {
 };
 
 var vorigezet = undefined;
+var size = 5;
 // var url = 'http://localhost:8000/cgi-bin/script.py';
 var url = 'http://users.ugent.be/~alwillek/cgi-bin/script.cgi';
 var fetch = require("node-fetch");
@@ -25,6 +26,7 @@ function startNewGame() {
             changescore(myJson.score);
             changecanvas(myJson.board, "black");
             vorigezet = myJson;
+            size = document.getElementById("sizelabel").innerHTML;
         }).catch(function (error) {
             alert(error);
         });
@@ -95,7 +97,7 @@ function mouseClicked(event) {
         let clickx = event.x - canvas.offsetLeft;
         let clicky = event.y - canvas.offsetTop;
         let color = String(document.getElementById("dropdownbutton").style.backgroundColor);
-        if (clickx < b/5 && clicky < h/5) {
+        if (clickx < b/size && clicky < h/size) {
             fetch(url + '?met=m&zet=' + color.charAt(0) + "&data=" + JSON.stringify(vorigezet))
                 .then(function(response) {
                     return response.json();
@@ -113,6 +115,22 @@ function mouseClicked(event) {
         }
     }
 }
+
+function mouseHover(event) {
+    if (event !== undefined){
+        let canvas = document.getElementById("myCanvas");
+        let b = canvas.width;
+        let h = canvas.height;
+        let posx = event.x - canvas.offsetLeft;
+        let posy = event.y - canvas.offsetTop;
+        if (posx <= b/size && posy <= h/size) {
+            canvas.style.cursor = "pointer"
+        } else {
+            canvas.style.cursor = "default"
+        }
+    }
+}
+
 
 
 
