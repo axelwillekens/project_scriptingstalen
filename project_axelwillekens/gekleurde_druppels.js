@@ -108,7 +108,7 @@ function mouseClicked(event) {
                     }
 		    vorigezet = myJson;
                 }).catch(function (error) {
-                    alert(error);
+                    alert("pick a color");
                 });
         }
     }
