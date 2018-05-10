@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
 
 # start code
+import json
 import random
 import cgi
-parameters = cgi.FieldStorage()
-colors = {"r": "red", "g": "green", "o": "orange", "b": "blue", "p": "purple"}
-
-
-def writetofile(size, roosterstring, json):
-    myfile = open('kleuren.txt', 'w')
-    myfile.write("{}\n".format(size))
-    myfile.write("{}\n".format(roosterstring))
-    myfile.write("{}\n".format(" ".join(json['moves'])))
-    myfile.write(str(json['score']))
-    myfile.close()
+startingcolors = ["r", "g", "o", "b", "p"]
+colors = {"r": "red", "g": "green", "o": "orange", "b": "blue", "p": "purple",
+          "R": "Red", "G": "Green", "O": "Orange", "B": "Blue", "P": "Purple"}
 
 
 def makeboard(roosterstring, size):
@@ -22,18 +15,27 @@ def makeboard(roosterstring, size):
         row = []
         for j in range(0, size):
             try:
-                row.append(colors[roosterstring[i*5+j].lower()])
+                row.append(colors[roosterstring[i*size+j]])
             except KeyError:
-                row.append("darkgoldenrod")
+                row.append("black")
         board.append(row)
 
     return board
 
 
-def new_game(size=5):
-    if parameters.getvalue('size'):
-        size = int(parameters.getvalue('size'))
+def makeroosterstring(board):
+    roosterstring = ""
+    for x in board:
+        for y in x:
+            if y == "black":
+                roosterstring += '*'
+            else:
+                roosterstring += y[0]
 
+    return roosterstring
+
+
+def new_game(size=5):
     stat = {}
     roosterstring = "*"
     for i in range(1, size**2):
@@ -44,8 +46,6 @@ def new_game(size=5):
     stat['score'] = 0
     stat['message'] = ''
 
-    writetofile(size, roosterstring, stat)
-
     return stat
 
 
@@ -54,35 +54,27 @@ def do_move(status, zet, index):
     stat = {}
 
     # aanmaken van het rooster
-    myfile = open('kleuren.txt', 'r')
-    allvalues = myfile.readlines()
-    size = int(allvalues[0].rstrip('\n'))
-    roosterstring = allvalues[1].rstrip('\n')
-    moves = allvalues[2].rstrip('\n')
-    if not moves:
-        moves = []
-    else:
-        moves = moves.split(' ')
-    moves.append(colors[zet])
-    score = int(allvalues[3])
-    myfile.close()
+    board = status['board']
+    moves = status['moves']
+    score = int(status['score'])
+    roosterstring = makeroosterstring(board)
+    size = board[0].length
 
     spelbord = Rooster(size, roosterstring)
     spelbord.druppel(kleur)
 
     stat['board'] = makeboard(str(spelbord), size)
     stat['score'] = score + 1
-    stat['moves'] = moves
+    stat['moves'] = moves.append(kleur)
     if spelbord.gewonnen(kleur):
         stat['message'] = "Proficiat! U won dit spel in {} stappen.".format(stat['score'])
     else:
         stat['message'] = ''
 
-    writetofile(size, str(spelbord), stat)
     return stat
 
 
-# klasse rooster
+# implementatie spel
 class Rooster:
     def __init__(self, k, kleuren):
         self.rooster = []
@@ -167,13 +159,19 @@ class Druppeltegel:
 
 # return correct respose
 print("Content-Type: application/json")
+print("Accept: application/json")
 print("Access-Control-Allow-Origin: *")
 print()
 
-import json
+parameters = cgi.FieldStorage()
 method = parameters.getvalue('met')
 if method == 'g':
-    print(json.dumps(new_game()))
+    if parameters.getvalue('size'):
+        print(json.dumps(new_game(parameters.getvalue('size'))))
+    else:
+        print(json.dumps(new_game()))
+
 elif method == 'm':
+    data = json.loads(parameters.getvalue('data'))
     zet = parameters.getvalue('zet')
-    print(json.dumps(do_move(None, zet, None)))
+    print(json.dumps(do_move(data, zet, None)))

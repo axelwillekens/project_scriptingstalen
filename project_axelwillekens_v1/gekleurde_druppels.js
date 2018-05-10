@@ -14,16 +14,31 @@ window.onclick = function(event) {
 
 var fetch = require("node-fetch");
 function startNewGame() {
-    fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=g')
+    fetch('http://users.ugent.be/~alwillek/cgi-bin/gekleurde_druppels.cgi?met=g&size=' + document.getElementById("sizelabel").innerHTML)
         .then(function(response) {
             return response.json();
         })
         .then(function(myJson) {
             changescore(myJson.score);
-            changecanvas(myJson.board, "darkgoldenrod");
+            changecanvas(myJson.board, "black");
         }).catch(function (error) {
             alert(error);
         });
+}
+
+//voor sizelabel
+function increasesizelabel() {
+    let size = Number(document.getElementById("sizelabel").innerHTML);
+    if (size < 10){
+        document.getElementById("sizelabel").innerHTML = String(size+1);
+    }
+}
+
+function decreasesizelabel() {
+    let size = Number(document.getElementById("sizelabel").innerHTML);
+    if (size > 5){
+        document.getElementById("sizelabel").innerHTML = String(size-1);
+    }
 }
 
 //voor Toggle Button
@@ -57,7 +72,6 @@ function changecanvas(rooster, firstcolor) {
             let y = d/2 + j*d;
             ctx.arc(x,y,d/2,0,2*Math.PI);
             ctx.fill();
-            //volgorde van de kleuren klopt langs geen kanten!!
             if (i === 0 && j === 0){
                 ctx.fillStyle = firstcolor;
                 ctx.fill();

@@ -32,6 +32,31 @@ hr {
     font-size: 20px;
 }
 
+#sizebuttonleft{
+    position:fixed;
+    top: 75%;
+    left: 2%;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 20px;
+}
+
+#sizelabel{
+    position:fixed;
+    top: 75%;
+    left: 4%;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 20px;
+}
+
+#sizebuttonright{
+    position:fixed;
+    top: 75%;
+    left: 6%;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 20px;
+}
+
+
 /*start button*/
 .startbutton {
     position:fixed;
